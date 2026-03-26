@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import 'dotenv/config';
 import { appDataSource } from './database/appDataSource.js';
+
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 app.use(express.json());
