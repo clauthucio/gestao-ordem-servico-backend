@@ -1,7 +1,7 @@
 {
-  "name": "indt-compras-back",
+  "name": "gestao-ordem-servico-backend",
   "version": "1.0.0",
-  "description": "Backend do sistema de compras INDT",
+  "description": "Backend do sistema de gestão de ordem de serviço",
   "license": "ISC",
   "author": "",
   "type": "module",
