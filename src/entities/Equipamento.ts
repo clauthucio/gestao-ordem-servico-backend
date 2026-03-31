@@ -24,7 +24,7 @@ export class Equipamento {
     @Column({type:"varchar", nullable:true})
     modelo!: string;
 
-    @Column({type:"boolean", nullable:true})
+    @Column({type:"boolean", nullable:true, default:true})
     ativo!: boolean;
 
 }
