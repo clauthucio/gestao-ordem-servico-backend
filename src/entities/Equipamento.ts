@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
-import {Tipo} from "../types/Tipo"
+import {enumTipoEquipamento} from "../types/Tipo"
 
 @Entity("equipamentos")
 export class Equipamento {
@@ -12,8 +12,8 @@ export class Equipamento {
     @Column({type:"varchar", nullable:false})
     nome!: string;
 
-    @Column({type:"enum", enum: Tipo, nullable:false})
-    tipo!: Tipo;
+    @Column({type:"enum", enum: enumTipoEquipamento, nullable:false})
+    tipo!: enumTipoEquipamento;
 
     @Column({type:"varchar", nullable:false})
     localizacao!: string;

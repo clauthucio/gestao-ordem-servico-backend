@@ -1,4 +1,4 @@
-export enum Tipo {
+export enum enumTipoEquipamento {
     ELÉTRICO,
     MECÂNICO,
     HIDRÁULICO,
