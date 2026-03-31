@@ -1,4 +1,4 @@
-export enum Perfil {
+export enum enumPerfil {
     SOLICITANTE,
     GESTOR,
     COMPRADOR
