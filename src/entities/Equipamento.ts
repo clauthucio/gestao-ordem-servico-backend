@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
-import {enumTipoEquipamento} from "../types/Tipo"
+import {enumTipoEquipamento} from "../types/TipoEquipamento"
 
 @Entity("equipamentos")
 export class Equipamento {
