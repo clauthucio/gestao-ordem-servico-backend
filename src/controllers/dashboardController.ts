@@ -1,9 +1,9 @@
 import {Request, Response} from "express";
-import {DashboadoardService} from "../services/dashboardService"
+import {DashboardService} from "../services/dashboardService";
 
 export class DashboardController {
 
-    constructor (private dashboardService: DashboadoardService) {}
+    constructor (private dashboardService: DashboardService) {}
     
     async getDashboard (req: Request, res: Response){
         try {

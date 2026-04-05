@@ -6,9 +6,7 @@ import { enumStatus } from '../types/Status';
 import { AppError } from "../errors/AppError"; //ESTUDAR
 
 export class DashboardService {
-
     private ordemRepository: Repository <OrdemServico>
-
     constructor(){
         this.ordemRepository = appDataSource.getRepository(OrdemServico);
     }
@@ -33,7 +31,7 @@ export class DashboardService {
 
         const amanha = new Date (hoje);
         amanha.setDate(amanha.getDate()+1);
-
+        
         return await this.ordemRepository.count({
             where:{
                 aberturaEm:Between(hoje,amanha),statusOrdemServico: enumStatus.ABERTO
