@@ -8,5 +8,6 @@ export const appDataSource = new DataSource({
     database: process.env.DB_NAME as string,
     synchronize: true,
     logging: false,
-    entities: ['src/entities/**/*.ts']
+    // Ajuste de entities para funcionar fora do src, antes estava apontando só para src/entities//*.ts.
+    entities: [process.env.NODE_ENV === "production" ? "dist/entities//*.js" : "src/entities//*.ts"]
 })

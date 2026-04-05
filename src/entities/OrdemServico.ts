@@ -8,7 +8,15 @@ import { Usuarios } from "./Usuarios";
 export class OrdemServico {
     @PrimaryGeneratedColumn("uuid")
     idOrdemServico!: string;
+    
+    @ManyToOne(() => Usuarios)
+    @JoinColumn({name: "idTecnico"})
+    tecnico!: Usuarios;
 
+    @ManyToOne(() => Usuarios)
+    @JoinColumn({name: "idSolicitante"})
+    solicitante!: Usuarios;
+    
     @Column({type:"varchar", unique:true, nullable:false})
     numeroOrdemServico!: string;
 
@@ -30,16 +38,8 @@ export class OrdemServico {
     @Column({type:"varchar", nullable:false})
     idSolicitante!: string;
 
-    @ManyToOne(() => Usuarios)
-    @JoinColumn({name: "idSolicitante"})
-    solicitante!: Usuarios;
-
     @Column({type:"varchar", nullable:true})
     idTecnico!: string;
-
-    @ManyToOne(() => Usuarios)
-    @JoinColumn({name: "idTecnico"})
-    tecnico!: Usuarios;
 
     @Column({type:"timestamptz", default: () => "now()", nullable:false})
     aberturaEm!: Date;
