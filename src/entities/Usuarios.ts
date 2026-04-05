@@ -1,13 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne} from "typeorm"
 import {enumPerfil} from "../types/Perfil"
+import { Equipamento } from "./Equipamento";
 
 @Entity("usuarios")
 export class Usuarios {
     @PrimaryGeneratedColumn("uuid")
     idUsuario!: string;
+    
+    @ManyToOne(() => Equipamento)
+    @JoinColumn({name: "idEquipamento"})
+    equipamento!: Equipamento;
 
     @Column({type:"varchar", nullable:false})
-    nome_Usuario!: string;
+    nomeUsuario!: string;
 
     @Column({type:"varchar", unique:true, nullable:false})
     emailUsuario!: string;
