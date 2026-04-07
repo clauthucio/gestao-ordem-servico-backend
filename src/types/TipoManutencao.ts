@@ -1,5 +1,5 @@
 export enum enumTipoManutencao {
-    CORRETIVA,
-    PREVENTIVA,
-    PREDITIVA
+    CORRETIVA = "CORRETIVA",
+    PREVENTIVA = "PREVENTIVA",
+    PREDITIVA = "PREDITIVA"
 }

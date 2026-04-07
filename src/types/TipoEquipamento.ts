@@ -1,6 +1,6 @@
 export enum enumTipoEquipamento {
-    ELÉTRICO,
-    MECÂNICO,
-    HIDRÁULICO,
-    PREDIAL
+  ELETRICO = "ELETRICO",
+  MECANICO = "MECANICO",
+  HIDRAULICO = "HIDRAULICO",
+  PREDIAL = "PREDIAL"
 }
