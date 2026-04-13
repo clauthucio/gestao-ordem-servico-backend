@@ -1,6 +1,6 @@
 export enum enumPrioridade { 
-    BAIXA,
-    MEDIA,
-    ALTA,
-    CRITICA
+    BAIXA = "BAIXA",
+    MEDIA = "MEDIA",
+    ALTA = "ALTA",
+    CRITICA = "CRITICA"
 }
