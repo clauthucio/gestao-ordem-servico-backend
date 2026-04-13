@@ -6,6 +6,25 @@ import { Usuarios } from "./usuarioEntity";
 
 @Entity("ordemServico")
 export class OrdemServico {
+    constructor(dto?: any) {
+        if (dto) {
+            this.numeroOrdemServico = dto.numeroOrdemServico;
+            this.idEquipamento = dto.idEquipamento;
+            (this as any).idSolicitante = dto.idSolicitante;
+            (this as any).idTecnico = dto.idTecnico;
+            this.tipoManutencao = dto.tipoManutencao;
+            this.prioridadeOrdemServico = dto.prioridadeOrdemServico;
+            this.statusOrdemServico = dto.statusOrdemServico;
+            this.descricaoFalha = dto.descricaoFalha;
+            this.descricaoServico = dto.descricaoServico;
+            this.pecasUtilizadas = dto.pecasUtilizadas;
+            this.horasTrabalhadas = dto.horasTrabalhadas;
+            this.inicioEm = dto.inicioEm;
+            this.conclusaoEm = dto.conclusaoEm;
+            this.aberturaEm = dto.aberturaEm;
+        }
+    }
+    
     @PrimaryGeneratedColumn("uuid")
     idOrdemServico!: string;
     
