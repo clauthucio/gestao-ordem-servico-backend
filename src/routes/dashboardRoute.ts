@@ -1,6 +1,6 @@
-import { Router, Request, Response } from "express";
 import { DashboardService } from "../services/dashboardService";
 import { DashboardController } from "../controllers/dashboardController";
+import { Router, Request, Response } from "express";
 
 const dashboardRoute = Router();
 const dashboardService = new DashboardService();

@@ -1,7 +1,7 @@
 import { UsuarioUpdateSchema, UsuarioCreateSchema } from './../schemas/usuarioSchema';
-import { validateBody } from "../middlewares/validateBody";
 import { UsuarioController } from './../controllers/usuarioController';
 import { UsuarioService } from './../services/usuarioService';
+import { validateBody } from "../middlewares/validateBody";
 import { Router } from "express";
 
 const usuarioRoute = Router();

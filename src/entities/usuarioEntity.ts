@@ -1,6 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne} from "typeorm"
-import {enumPerfil} from "../types/Perfil"
+import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne} from "typeorm"
 import { Equipamento } from "./equipamentoEntity";
+import { enumPerfil} from "../types/Perfil"
 
 @Entity("usuario")
 export class Usuarios {

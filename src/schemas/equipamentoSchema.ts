@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { enumTipoEquipamento } from '../types/TipoEquipamento';
+import { z } from 'zod';
 
 export const EquipamentoCreateSchema = z.object({
     codigo: z

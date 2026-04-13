@@ -1,6 +1,6 @@
+import { AppError } from "../errors/AppError";
 import type { RequestHandler } from "express";
 import type { ZodSchema } from "zod";
-import { AppError } from "../errors/AppError";
 
 export const validateBody = (schema: ZodSchema): RequestHandler => {
     return (req, res, next) => {

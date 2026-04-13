@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { enumPerfil } from "../types/Perfil";
+import { z } from "zod";
 
 export const UsuarioCreateSchema = z.object({
   nomeUsuario: z

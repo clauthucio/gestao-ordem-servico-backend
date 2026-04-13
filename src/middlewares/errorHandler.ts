@@ -1,6 +1,6 @@
-import type { ErrorRequestHandler } from "express";
-import { ZodError } from "zod";
 import { AppError } from "../errors/AppError";
+import { ZodError } from "zod";
+import type { ErrorRequestHandler } from "express";
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof AppError) {
