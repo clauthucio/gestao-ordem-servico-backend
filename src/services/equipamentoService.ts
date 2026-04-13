@@ -1,7 +1,7 @@
-import { AppError } from "../errors/AppError"
 import { appDataSource } from "../database/appDataSource";
+import { AppError } from "../errors/AppError"
 import { CreateEquipamentoDTO, UpdateEquipamentoDTO } from "../schemas/equipamentoSchema";
-import { Equipamento } from "../entities/Equipamento";
+import { Equipamento } from "../entities/equipamentoEntity";
 import { Repository } from "typeorm";
 
 export class EquipamentoService{
@@ -11,7 +11,7 @@ export class EquipamentoService{
         this.equipamentoRepository = appDataSource.getRepository(Equipamento);
     }
     //GET
-    async findById(id:string): Promise<Equipamento> {
+    public async findById(id:string): Promise<Equipamento> {
         const equipamento = await this.equipamentoRepository.findOne({
             where:{id}})
 
@@ -22,7 +22,7 @@ export class EquipamentoService{
         return equipamento;
 
     }
-    async findAll(): Promise<Equipamento[]>{
+    public async findAll(): Promise<Equipamento[]>{
         const equipamentos = await this.equipamentoRepository.find({
             order:{nome:"ASC"},
         });
@@ -31,7 +31,7 @@ export class EquipamentoService{
     }
 
     //CREATE
-    async create(data: CreateEquipamentoDTO): Promise<Equipamento>{
+    public async CreateEquipamento (data: CreateEquipamentoDTO): Promise<Equipamento>{
         const equipamentoExistente = await this.equipamentoRepository.findOne({
             where: {codigo:data.codigo},
         });
@@ -50,7 +50,7 @@ export class EquipamentoService{
     }
     
     //UPDATE
-    async update(id:string,data: UpdateEquipamentoDTO): Promise<Equipamento>{
+    public async updateEquipamento(id:string,data: UpdateEquipamentoDTO): Promise<Equipamento>{
         const equipamento = await this.findById(id);
 
         if(data.codigo && data.codigo !== equipamento.codigo) {
@@ -70,7 +70,7 @@ export class EquipamentoService{
     }
 
     //DELETE
-    async delete(id:string) : Promise<void>{
+    public async deleteEquipamento (id:string) : Promise<void>{
         const equipamento = await this.findById(id);
         await this.equipamentoRepository.remove(equipamento);
     }
