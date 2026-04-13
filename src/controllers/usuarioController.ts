@@ -1,5 +1,5 @@
-import {Request, Response} from "express"
-import{ UsuarioService, CreateUsuarioDTO,UpdateUsuarioDTO} from './../services/usuarioService';
+import { Request, Response} from "express"
+import { UsuarioService} from './../services/usuarioService';
 
 export class UsuarioController {
     private usuarioService: UsuarioService;
