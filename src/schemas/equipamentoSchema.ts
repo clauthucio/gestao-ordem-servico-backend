@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { enumTipoEquipamento } from '../types/TipoEquipamento';
 
-export const equipamentoCreateSchema = z.object({
+export const EquipamentoCreateSchema = z.object({
     codigo: z
     .string()
     .min(1,"Código é obrigatório")
@@ -35,10 +35,10 @@ export const equipamentoCreateSchema = z.object({
 });
 
 //Cria um tipo TypeScript automaticamente a partir do schema do Zod
-export type CreateEquipamentoDTO = z.infer<typeof equipamentoCreateSchema>;
+export type CreateEquipamentoDTO = z.infer<typeof EquipamentoCreateSchema>;
 
 //Schema para ATUALIZAR equipamento (opcional)
 
 //"Partial" transforma todos os campos em opcionais. Isso combina com atualização parcial, por exemplo enviar só nome e localizacao.
-export const equipamentoUpdateSchema = equipamentoCreateSchema.partial();
-export type UpdateEquipamentoDTO = z.infer<typeof equipamentoUpdateSchema>;
+export const EquipamentoUpdateSchema = EquipamentoCreateSchema.partial();
+export type UpdateEquipamentoDTO = z.infer<typeof EquipamentoUpdateSchema>;
