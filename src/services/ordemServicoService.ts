@@ -36,6 +36,11 @@ export default class OrdemServicoService {
         if (numeroOSExistente){
             throw new AppError(`Já existe uma Ordem de Serviço com o número: ${data.numeroOrdemServico}`, 409);
         }
+        
+        // NOVO
+        const novaOrdemServico = new OrdemServico(data);
+        
+        /* ANTES
         const novaOrdemServico = this.ordemServicoRepository.create({
             numeroOrdemServico: data.numeroOrdemServico,
             idEquipamento: data.idEquipamento,
@@ -52,6 +57,8 @@ export default class OrdemServicoService {
             conclusaoEm: data.conclusaoEm,
             aberturaEm: data.aberturaEm
         });
+        */
+        
         return await this.ordemServicoRepository.save(novaOrdemServico);
     }
 
@@ -64,12 +71,19 @@ export default class OrdemServicoService {
                 where: { numeroOrdemServico: data.numeroOrdemServico }
             });
 
-        if (numeroExistente){
-            throw new AppError (`Já existe uma Ordem de Serviço com o número: ${data.numeroOrdemServico}`, 409)
-        };
-    };
-    Object.assign(ordemServico,data);
-    return await this.ordemServicoRepository.save(ordemServico);
+            if (numeroExistente){
+                throw new AppError (`Já existe uma Ordem de Serviço com o número: ${data.numeroOrdemServico}`, 409);
+            }
+        }
+        
+        // [AGORA] Usando Constructor Pattern para mapear dados parciais
+        Object.assign(ordemServico, new OrdemServico(data));
+        
+        /* [ANTES] Atribuindo diretamente sem constructor
+        Object.assign(ordemServico, data);
+        */
+        
+        return await this.ordemServicoRepository.save(ordemServico);
     }
 
     //DELETE
