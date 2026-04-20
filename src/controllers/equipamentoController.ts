@@ -3,8 +3,8 @@ import { ZodError } from "zod";
 import { AppError } from "../errors/AppError";
 import { EquipamentoService } from "../services/equipamentoService";
 import {
-  equipamentoCreateSchema,
-  equipamentoUpdateSchema,
+  EquipamentoCreateSchema,
+  EquipamentoUpdateSchema,
 } from "../schemas/equipamentoSchema";
 
 export class EquipamentoController {
@@ -31,8 +31,8 @@ export class EquipamentoController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      const data = equipamentoCreateSchema.parse(req.body);
-      const equipamento = await this.equipamentoService.create(data);
+      const data = EquipamentoCreateSchema.parse(req.body);
+      const equipamento = await this.equipamentoService.CreateEquipamento(data);
       res.status(201).json(equipamento);
     } catch (error) {
       this.handleError(error, res);
@@ -42,8 +42,8 @@ export class EquipamentoController {
   async update(req: Request<{ id: string }>, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const data = equipamentoUpdateSchema.parse(req.body);
-      const equipamento = await this.equipamentoService.update(id, data);
+      const data = EquipamentoUpdateSchema.parse(req.body);
+      const equipamento = await this.equipamentoService.updateEquipamento(id, data);
       res.status(200).json(equipamento);
     } catch (error) {
       this.handleError(error, res);
@@ -53,7 +53,7 @@ export class EquipamentoController {
   async delete(req: Request<{ id: string }>, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      await this.equipamentoService.delete(id);
+      await this.equipamentoService.deleteEquipamento(id);
       res.status(204).send();
     } catch (error) {
       this.handleError(error, res);

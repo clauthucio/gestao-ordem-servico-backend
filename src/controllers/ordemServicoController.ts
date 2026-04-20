@@ -22,13 +22,13 @@ export default class OrdemServicoController {
     }
 
     //CREATE
-    public async createOrdemServico (req: Request, res: Response){
+    public async create (req: Request, res: Response){
         const OrdemServico = await this.ordemServicoService.createOrdemServico(req.body as CreateOrdemServicoDTO);
         return res.status(201).json(OrdemServico);
     }
 
     //UPDATE
-    public async updateOrdemServico (req: Request, res: Response){
+    public async update (req: Request, res: Response){
         const OrdemServico = await this.ordemServicoService.updateOrdemServico(
             req.params.id as string,
             req.body as UpdateOrdemServicoDTO
@@ -37,7 +37,7 @@ export default class OrdemServicoController {
     }
 
     //DELETE
-    public async deleteOrdemServico (req: Request, res: Response){
+    public async delete (req: Request, res: Response){
         await this.ordemServicoService.deleteOrdemServico(req.params.id as string);
         return res.status(204).send();
     }

@@ -1,6 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne} from "typeorm"
 import { Equipamento } from "./equipamentoEntity";
 import { enumPerfil} from "../types/Perfil"
+import { OneToMany } from "typeorm";  
+import { Sessao } from "./sessaoEntity";  
 
 @Entity("usuario")
 export class Usuarios {
@@ -10,6 +12,9 @@ export class Usuarios {
     @ManyToOne(() => Equipamento, { nullable: true })
     @JoinColumn({name: "idEquipamento"})
     equipamento?: Equipamento;
+
+    @OneToMany(() => Sessao, (sessao) => sessao.usuario)
+    sessoes!: Sessao[];
 
     @Column({type:"varchar", nullable:false})
     nomeUsuario!: string;

@@ -6,6 +6,9 @@ export const appDataSource = new DataSource({
     username: process.env.DB_USER as string,
     password: process.env.DB_PASS as string,
     database: process.env.DB_NAME as string,
+
+    // NUNCA usar "synchronize: true" em produção:
+    //synchronize: false = É possível controlar mudanças manualmente com MIGRATIONS
     synchronize: true,
     logging: false,
     // Ajuste de entities para funcionar fora do src, antes estava apontando só para src/entities//*.ts.
