@@ -4,7 +4,7 @@ import { enumPerfil} from "../types/Perfil"
 import { OneToMany } from "typeorm";  
 import { Sessao } from "./sessaoEntity";  
 
-@Entity("usuario")
+@Entity("usuarios")
 export class Usuarios {
     @PrimaryGeneratedColumn("uuid")
     idUsuario!: string;
