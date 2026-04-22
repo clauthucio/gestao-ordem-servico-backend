@@ -8,8 +8,10 @@ import { usuarioRoute } from './routes/usuarioRoute.js';
 import { equipamentoRoute } from './routes/equipamentoRoute.js';
 import { authRoute } from './routes/authRoute.js';
 import express from 'express';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT ?? 3000;
 app.use(express.json());
 app.use(authRoute);
