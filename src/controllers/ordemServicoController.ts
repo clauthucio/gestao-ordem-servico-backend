@@ -2,6 +2,9 @@ import type OrdemServicoService from "../services/ordemServicoService";
 import type { Request, Response } from "express";
 import { CreateOrdemServicoDTO } from "../schemas/ordemServicoSchema";
 import { UpdateOrdemServicoDTO } from './../schemas/ordemServicoSchema';
+import { PatchOrdemServicoDTO } from "../schemas/ordemServicoSchema";
+import { enumStatus } from "../types/Status";
+import { enumPrioridade } from "../types/Prioridade";
 
 export default class OrdemServicoController {
     private ordemServicoService: OrdemServicoService;
@@ -12,7 +15,10 @@ export default class OrdemServicoController {
 
     //GET
     public async findAll (req: Request, res: Response){
-        const OrdemServico = await this.ordemServicoService.findAll();
+        // Lê filtros opcionais da query e repassa para o service aplicar AND.
+        const status = req.query.status as enumStatus | undefined;
+        const prioridade = req.query.prioridade as enumPrioridade | undefined;
+        const OrdemServico = await this.ordemServicoService.findAll({ status, prioridade });
         return res.status(200).json(OrdemServico);
     }
 
@@ -32,6 +38,16 @@ export default class OrdemServicoController {
         const OrdemServico = await this.ordemServicoService.updateOrdemServico(
             req.params.id as string,
             req.body as UpdateOrdemServicoDTO
+        );
+        return res.status(200).json(OrdemServico);
+    }
+
+    //PATCH
+    public async patch (req: Request, res: Response){
+        // Atualização parcial: status/atribuição sem substituir o payload completo da OS.
+        const OrdemServico = await this.ordemServicoService.patchOrdemServico(
+            req.params.id as string,
+            req.body as PatchOrdemServicoDTO
         );
         return res.status(200).json(OrdemServico);
     }

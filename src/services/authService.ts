@@ -150,9 +150,10 @@ export class AuthService {
         //Passo 3 - Busca a sessão associada ao token - verifica se existe e se está ativa no banco
         const sessao = await this.sessaoRepository.findOne({
             where: {
-                usuario: {idUsuario: usuarioId }},
-                relations: { usuario: true }, //Carrega dados do usuário
-                order: { createdAt: "DESC"},
+                usuario: { idUsuario: usuarioId }
+            },
+            relations: { usuario: true }, //Carrega dados do usuário
+            order: { createdAt: "DESC" }
         });
         //Passo 4 - Tratar os erros
         if (!sessao) {
@@ -212,12 +213,13 @@ export class AuthService {
             throw new AppError("Refresh Token Inválido", 401);
         }
         const sessao = await this.sessaoRepository.findOne({
-        where: { usuario: { idUsuario: usuarioId } },
-        order: { createdAt: "DESC" },  
+            where: { usuario: { idUsuario: usuarioId } },
+            relations: { usuario: true },
+            order: { createdAt: "DESC" }
         });
 
         if (!sessao) {
-      throw new AppError("Sessão não encontrada", 401);
+            throw new AppError("Sessão não encontrada", 401);
         }
         sessao.revokedAt = new Date();  // Data/hora do logout
         await this.sessaoRepository.save(sessao);
