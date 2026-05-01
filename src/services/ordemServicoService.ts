@@ -208,13 +208,13 @@ export default class OrdemServicoService {
             }
         }
         
-        // [AGORA] Usando Constructor Pattern para mapear dados parciais
-        Object.assign(ordemServico, new OrdemServico(data));
-        
-        /* [ANTES] Atribuindo diretamente sem constructor
-        Object.assign(ordemServico, data);
-        */
-        
+        // Merge seletivo: apenas campos do payload (evita sobrescrever com undefined)
+        Object.keys(data).forEach(key => {
+            if ((data as any)[key] !== undefined) {
+                (ordemServico as any)[key] = (data as any)[key];
+            }
+        });
+
         return await this.ordemServicoRepository.save(ordemServico);
     }
 
