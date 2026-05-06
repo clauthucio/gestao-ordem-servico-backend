@@ -28,9 +28,9 @@ usuarioRoute.get(
 // POST - Criar usuário (Apenas ADMIM)
 usuarioRoute.post(
   "/app/usuarios",
-  AuthenticateToken,
+  // AuthenticateToken,                
+  // AuthorizeRoles(["ADMIN"]),
   validateBody(UsuarioCreateSchema),
-  AuthorizeRoles(["ADMIN"]),
   async (req: Request, res: Response) => {
     await usuarioController.create(req, res);
   }
@@ -60,8 +60,3 @@ usuarioRoute.delete(
 });
 
 export { usuarioRoute };
-
-
-
-
-

@@ -5,7 +5,9 @@ export const EquipamentoCreateSchema = z.object({
     codigo: z
     .string()
     .min(1,"Código é obrigatório")
-    .max(50,"Código não pode ter mais de 50 caracteres"),
+    .max(50,"Código não pode ter mais de 50 caracteres")
+    .optional(),
+    
 
     nome:z
     .string()
