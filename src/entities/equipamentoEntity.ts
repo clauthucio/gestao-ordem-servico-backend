@@ -27,6 +27,12 @@ export class Equipamento {
     @Column({type:"boolean", nullable:true, default:true, name: "ativo"})
     ativo!: boolean;
 
+    @Column({ type: "varchar", length: 36, nullable: true, name: "id_usuario_criacao" })
+    idUsuarioCriacao?: string | null;
+
+    @Column({ type: "varchar", length: 36, nullable: true, name: "id_usuario_ultima_modificacao" })
+    idUsuarioUltimaModificacao?: string | null;
+
     @CreateDateColumn({type:"timestamptz", name: "data_criacao"})
     dataCriacao!: Date;
 

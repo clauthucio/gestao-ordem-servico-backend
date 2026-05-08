@@ -15,6 +15,7 @@ services:
 
   api:
     build: .
+    restart: always
     container_name: gos-api
     depends_on:
       - postgres

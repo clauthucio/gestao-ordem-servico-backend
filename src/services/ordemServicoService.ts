@@ -89,9 +89,9 @@ export default class OrdemServicoService {
         }
 
         // Formata o número com zero-padding (4 dígitos)
-        const numeroFormatado = contador.proximoNumero.toString().padStart(4, '0');
+        const numeroFormatado = contador.proximoNumero.toString().padStart(3, '0');
         
-        return `OS-${dataFormatada}-${numeroFormatado}`;
+        return `OS${dataFormatada}-${numeroFormatado}`;
     }
 
     //GET

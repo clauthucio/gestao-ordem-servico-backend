@@ -98,6 +98,13 @@ export class AuthService {
             throw new AppError ("Credenciais Inválidas", 401); //Não informar login inválido para não facilitar vazar segurança
         }
 
+        if (!usuario.statusUsuario) {
+            throw new AppError(
+                "Usuário Inativo ou bloqueado, contate o administrador do sistema",
+                403
+            );
+        }
+
         //Gera tokens (access + refresh)
         const accessToken = this.generateAccessToken(usuario);
         const refreshToken = this.generateRefreshToken(usuario.idUsuario);
