@@ -39,7 +39,10 @@ export const OrdemServicoUpdateSchema = OrdemServicoCreateSchema.partial();
 export const OrdemServicoPatchSchema = z
   .object({
     statusOrdemServico: z.nativeEnum(enumStatus).optional(),
+    tipoManutencao: z.nativeEnum(enumTipoManutencao).optional(),
+    prioridadeOrdemServico: z.nativeEnum(enumPrioridade).optional(),
     idTecnico: z.string().uuid("O ID do Técnico deve ser UUID valido").optional(),
+    descricaoFalha: z.string().max(2000, "Quantidade máxima de 2000 caracteres atingido").optional(),
     descricaoServico: z
       .string()
       .max(2000, "Quantidade máxima de 2000 caracteres atingido")
@@ -52,6 +55,7 @@ export const OrdemServicoPatchSchema = z
     dataPrevistaConclusao: z.coerce.date().optional(),
     inicioEm: z.coerce.date().optional(),
   })
+  .passthrough() // Permite campos extras e os mantém no objeto
   .refine((data) => Object.keys(data).length > 0, {
     message: "Informe ao menos um campo para atualização parcial",
   })

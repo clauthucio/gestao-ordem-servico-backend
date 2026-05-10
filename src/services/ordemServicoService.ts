@@ -442,6 +442,19 @@ export default class OrdemServicoService {
             nextStatus: data.statusOrdemServico
         };
 
+        // Mapear campos básicos que podem vir do PATCH
+        if (data.tipoManutencao !== undefined) {
+            ordemServico.tipoManutencao = data.tipoManutencao;
+        }
+        
+        if (data.prioridadeOrdemServico !== undefined) {
+            ordemServico.prioridadeOrdemServico = data.prioridadeOrdemServico;
+        }
+        
+        if (data.descricaoFalha !== undefined) {
+            ordemServico.descricaoFalha = data.descricaoFalha;
+        }
+
         if (data.idTecnico) {
             // Garante que o técnico informado existe e possui perfil válido.
             const tecnico = await this.usuarioRepository.findOne({ where: { idUsuario: data.idTecnico } });
@@ -499,6 +512,7 @@ export default class OrdemServicoService {
         if (data.pecasUtilizadas !== undefined) ordemServico.pecasUtilizadas = data.pecasUtilizadas;
         if (data.horasTrabalhadas !== undefined) ordemServico.horasTrabalhadas = data.horasTrabalhadas;
         if (data.inicioEm !== undefined) ordemServico.inicioEm = data.inicioEm;
+        if (data.dataPrevistaConclusao !== undefined) ordemServico.dataPrevistaConclusao = data.dataPrevistaConclusao;
 
         // Se entrar em andamento sem início informado, registra timestamp automático.
         if (data.statusOrdemServico === enumStatus.EM_ANDAMENTO && !ordemServico.inicioEm) {
