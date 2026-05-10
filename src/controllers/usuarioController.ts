@@ -33,6 +33,29 @@ export class UsuarioController {
         res.status(200).json(usuario);
     }
 
+    //ALTERAR PRÓPRIA SENHA
+    public async alterarSenha (req: Request, res: Response){
+        // Verifica se o usuário está tentando alterar sua própria senha
+        if (req.user?.idUsuario !== req.params.id) {
+            res.status(403).json({ message: "Você só pode alterar sua própria senha" });
+            return;
+        }
+
+        const usuario = await this.usuarioService.alterarPropriasSenha(
+            req.params.id as string,
+            req.body
+        );
+        
+        res.status(200).json({ 
+            message: "Senha alterada com sucesso",
+            usuario: {
+                idUsuario: usuario.idUsuario,
+                nomeUsuario: usuario.nomeUsuario,
+                emailUsuario: usuario.emailUsuario
+            }
+        });
+    }
+
     //DELETE
     public async delete (req: Request, res: Response){
         const { id } = req.params;
