@@ -44,12 +44,27 @@ export default class OrdemServicoController {
 
     //PATCH
     public async patch (req: Request, res: Response){
-        // Atualização parcial: status/atribuição sem substituir o payload completo da OS.
-        const OrdemServico = await this.ordemServicoService.patchOrdemServico(
-            req.params.id as string,
-            req.body as PatchOrdemServicoDTO
-        );
-        return res.status(200).json(OrdemServico);
+        try {
+            console.log("[PATCH Controller] Iniciando patch com id:", req.params.id);
+            console.log("[PATCH Controller] Body:", req.body);
+            
+            // Atualização parcial: status/atribuição sem substituir o payload completo da OS.
+            const OrdemServico = await this.ordemServicoService.patchOrdemServico(
+                req.params.id as string,
+                req.body as PatchOrdemServicoDTO
+            );
+            console.log("[PATCH Controller] Patch concluído com sucesso");
+            return res.status(200).json(OrdemServico);
+        } catch (error) {
+            console.error("[PATCH Controller] ERRO:", error);
+            throw error;
+        }
+    }
+
+    //GET Aguardo de Peça Log
+    public async getAguardandoPecaLog (req: Request, res: Response){
+        const log = await this.ordemServicoService.getAguardandoPecaLog(req.params.id as string);
+        return res.status(200).json(log);
     }
 
     //DELETE

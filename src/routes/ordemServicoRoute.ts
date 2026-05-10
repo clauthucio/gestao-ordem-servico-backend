@@ -13,6 +13,12 @@ const ordemServicoRoute = Router();
 const ordemServicoService = new OrdemServicoService();
 const ordemServicoController = new OrdemServicoController(ordemServicoService);
 
+// Log middleware para toda rota de OS
+ordemServicoRoute.use((req: Request, res: Response, next) => {
+  console.log("[OS ROUTE] " + req.method + " " + req.path);
+  next();
+});
+
 // GET: Lista todas as ordens de serviço (qualquer usuário autenticado - controller filtra por papel)
 ordemServicoRoute.get(
   "/app/os",
@@ -134,6 +140,24 @@ ordemServicoRoute.patch(
   AuthorizeRoles(["SUPERVISOR_DE_MANUTENCAO", "TECNICO", "ADMIN"]),
   async (req: Request, res: Response) => {
     await ordemServicoController.patch(req, res);
+  }
+);
+
+// GET: Retorna histórico de aguardamento de peça (qualquer usuário autenticado)
+ordemServicoRoute.get(
+  "/app/os/:id/aguardando-peca-log",
+  AuthenticateToken,
+  async (req: Request, res: Response) => {
+    await ordemServicoController.getAguardandoPecaLog(req, res);
+  }
+);
+
+// GET (alias): Retorna histórico de aguardamento de peça (compatibilidade com /app/ordens)
+ordemServicoRoute.get(
+  "/app/ordens/:id/aguardando-peca-log",
+  AuthenticateToken,
+  async (req: Request, res: Response) => {
+    await ordemServicoController.getAguardandoPecaLog(req, res);
   }
 );
 

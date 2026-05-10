@@ -27,13 +27,13 @@ export const OrdemServicoCreateSchema = z.object({
   pecasUtilizadas: z.string().max(2000,"Quantidade máxima de 2000 caracteres atingido").optional(),
   horasTrabalhadas: z.number().nonnegative().optional(),
 
-  inicioEm: z.coerce.date().optional(),
-  conclusaoEm: z.coerce.date().optional(),
-  aberturaEm: z.coerce.date().optional()
+  dataPrevistaConclusao: z.coerce.date().optional(),
+  inicioEm: z.coerce.date().optional()
 });
 
 
-// Valida PATCH que permite enviar apenas alguns campos, obriga descricaoServico + horasTrabalhadas ao mudar status para CONCLUIDO
+// Valida PATCH que permite enviar apenas alguns campos, obriga descricaoServico ao mudar status para CONCLUIDO
+// horasTrabalhadas é calculado automaticamente pelo backend
 export const OrdemServicoUpdateSchema = OrdemServicoCreateSchema.partial();
 
 export const OrdemServicoPatchSchema = z
@@ -49,8 +49,8 @@ export const OrdemServicoPatchSchema = z
       .max(2000, "Quantidade máxima de 2000 caracteres atingido")
       .optional(),
     horasTrabalhadas: z.number().nonnegative().optional(),
+    dataPrevistaConclusao: z.coerce.date().optional(),
     inicioEm: z.coerce.date().optional(),
-    conclusaoEm: z.coerce.date().optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "Informe ao menos um campo para atualização parcial",
@@ -58,10 +58,10 @@ export const OrdemServicoPatchSchema = z
   .refine(
     (data) => {
       if (data.statusOrdemServico !== enumStatus.CONCLUIDO) return true;
-      return Boolean(data.descricaoServico && data.horasTrabalhadas !== undefined);
+      return Boolean(data.descricaoServico);
     },
     {
-      message: "Para concluir uma OS, informe descrição do serviço e horas trabalhadas",
+      message: "Para concluir uma OS, informe descrição do serviço",
       path: ["statusOrdemServico"],
     }
   );

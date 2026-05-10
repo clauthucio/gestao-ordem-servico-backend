@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"
 import { enumPrioridade } from "../types/Prioridade";
 import { enumStatus } from "../types/Status";
 import { enumTipoManutencao } from "../types/TipoManutencao";
 import { Usuarios } from "./usuarioEntity";
 import { Equipamento } from "./equipamentoEntity";
+import { AguardandoPecaLog } from "./aguardandoPecaLogEntity";
 
 @Entity("ordem_servico")
 export class OrdemServico {
@@ -21,8 +22,7 @@ export class OrdemServico {
             this.pecasUtilizadas = dto.pecasUtilizadas;
             this.horasTrabalhadas = dto.horasTrabalhadas;
             this.inicioEm = dto.inicioEm;
-            this.conclusaoEm = dto.conclusaoEm;
-            this.aberturaEm = dto.aberturaEm;
+            this.dataPrevistaConclusao = dto.dataPrevistaConclusao;
         }
     }
     
@@ -65,14 +65,14 @@ export class OrdemServico {
     @Column({type:"varchar", nullable:true, name: "id_usuario_solicitante"})
     idSolicitante!: string;
 
-    @Column({type:"timestamptz", default: () => "now()", nullable:false, name: "data_abertura"})
-    aberturaEm!: Date;
-
     @Column({type:"timestamptz", nullable:true, name: "data_inicio"})
     inicioEm!: Date;
 
     @Column({type:"timestamptz", nullable:true, name: "data_conclusao"})
     conclusaoEm!: Date;
+
+    @Column({type:"timestamptz", nullable:true, name: "data_prevista_conclusao"})
+    dataPrevistaConclusao!: Date;
 
     @Column({type:"text", nullable:true, name: "descricao_servico"})
     descricaoServico!: string;
@@ -88,4 +88,7 @@ export class OrdemServico {
 
     @UpdateDateColumn({type:"timestamptz", name: "data_atualizacao"})
     dataAtualizacao!: Date;
+
+    @OneToMany(() => AguardandoPecaLog, (log) => log.ordemServico, { cascade: true })
+    aguardandoPecaLogs!: AguardandoPecaLog[];
 }
