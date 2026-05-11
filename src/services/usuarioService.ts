@@ -1,5 +1,5 @@
 import {Repository } from "typeorm";
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import { appDataSource } from "../database/appDataSource";
 import { AppError } from "../errors/AppError";
 import { Usuarios } from "../entities/usuarioEntity";
@@ -23,6 +23,11 @@ export interface UpdateUsuarioDTO{
     senhaHash?: string;
     perfilUsuario?: enumPerfil;
     statusUsuario?: boolean;
+}
+
+export interface AlterarSenhaDTO {
+    senhaAtual: string;
+    senhaNova: string;
 }
 
 export class UsuarioService {
@@ -76,6 +81,14 @@ export class UsuarioService {
     public async updateUsuario (idUsuario: string, data: UpdateUsuarioDTO) : Promise<Usuarios> {
         const usuario = await this.findById(idUsuario);
 
+        // Bloqueia tentativas de alterar senha via PUT
+        if (data.senhaUsuario || data.senhaHash) {
+            throw new AppError(
+                "Não é permitido alterar senha através deste endpoint. Use PATCH /app/usuarios/:id/senha",
+                400
+            );
+        }
+
         if (data.emailUsuario && data.emailUsuario !== usuario.emailUsuario){
             const emailExistente = await this.usuarioRepository.findOne({
                 where: { emailUsuario: data.emailUsuario},
@@ -84,10 +97,7 @@ export class UsuarioService {
                 throw new AppError("Já existe um usuário com esse e-mail",409);
             }
         }
-        if (data.senhaUsuario){
-            usuario.senhaUsuario = data.senhaUsuario;
-            usuario.senhaHash = await hash(data.senhaUsuario,10)
-        }
+
         if (data.nomeUsuario !== undefined){
             usuario.nomeUsuario = data.nomeUsuario;
         }
@@ -97,6 +107,23 @@ export class UsuarioService {
         if (data.perfilUsuario !== undefined){
             usuario.perfilUsuario = data.perfilUsuario;
         }
+        return this.usuarioRepository.save(usuario);
+    }
+
+    //ALTERAR PRÓPRIA SENHA
+    public async alterarPropriasSenha(idUsuario: string, data: AlterarSenhaDTO): Promise<Usuarios> {
+        const usuario = await this.findById(idUsuario);
+
+        // Valida se a senha atual está correta
+        const senhaCorreta = await compare(data.senhaAtual, usuario.senhaHash);
+        if (!senhaCorreta) {
+            throw new AppError("Senha atual incorreta", 400);
+        }
+
+        // Atualiza para a nova senha
+        usuario.senhaUsuario = data.senhaNova;
+        usuario.senhaHash = await hash(data.senhaNova, 10);
+
         return this.usuarioRepository.save(usuario);
     }
 

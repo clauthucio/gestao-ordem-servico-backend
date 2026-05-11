@@ -14,6 +14,13 @@ const app = express();
 app.use(cors());
 const PORT = process.env.PORT ?? 3000;
 app.use(express.json());
+
+// Log todas as requisições
+app.use((req, res, next) => {
+  console.log("[REQUEST]", req.method, req.path);
+  next();
+});
+
 app.use(authRoute);
 app.use(dashboardRoute);
 app.use(usuarioRoute);

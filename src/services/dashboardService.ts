@@ -39,7 +39,7 @@ export class DashboardService {
         
         return await this.ordemRepository.count({
             where:{
-                aberturaEm: Between(hoje, amanha),
+                dataCriacao: Between(hoje, amanha),
                 statusOrdemServico: enumStatus.ABERTO
             }
         });

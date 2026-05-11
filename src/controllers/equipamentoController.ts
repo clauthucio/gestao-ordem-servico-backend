@@ -32,7 +32,8 @@ export class EquipamentoController {
   async create(req: Request, res: Response): Promise<void> {
     try {
       const data = EquipamentoCreateSchema.parse(req.body);
-      const equipamento = await this.equipamentoService.CreateEquipamento(data);
+      const idUsuario = req.user!.idUsuario;
+      const equipamento = await this.equipamentoService.CreateEquipamento(data, idUsuario);
       res.status(201).json(equipamento);
     } catch (error) {
       this.handleError(error, res);
@@ -43,7 +44,8 @@ export class EquipamentoController {
     try {
       const { id } = req.params;
       const data = EquipamentoUpdateSchema.parse(req.body);
-      const equipamento = await this.equipamentoService.updateEquipamento(id, data);
+      const idUsuario = req.user!.idUsuario;
+      const equipamento = await this.equipamentoService.updateEquipamento(id, data, idUsuario);
       res.status(200).json(equipamento);
     } catch (error) {
       this.handleError(error, res);

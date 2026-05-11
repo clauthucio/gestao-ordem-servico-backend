@@ -1,4 +1,4 @@
-import { UsuarioUpdateSchema, UsuarioCreateSchema } from './../schemas/usuarioSchema';
+import { UsuarioUpdateSchema, UsuarioCreateSchema, AlterarSenhaSchema } from './../schemas/usuarioSchema';
 import { UsuarioController } from './../controllers/usuarioController';
 import { UsuarioService } from './../services/usuarioService';
 import { validateBody } from "../middlewares/validateBody";
@@ -49,6 +49,16 @@ usuarioRoute.put(
     // Controller verifica se usuário está editando a si mesmo
     await usuarioController.update(req, res);
 });
+
+// PATCH: Alterar própria senha (Todos usuários autenticados)
+usuarioRoute.patch(
+  "/app/usuarios/:id/senha",
+  AuthenticateToken,
+  validateBody(AlterarSenhaSchema),
+  async (req: Request, res: Response) => {
+    await usuarioController.alterarSenha(req, res);
+  }
+);
 
 // DELETE: Deletar usuário (Apenas ADMIM)
 usuarioRoute.delete(

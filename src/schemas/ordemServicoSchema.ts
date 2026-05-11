@@ -27,19 +27,22 @@ export const OrdemServicoCreateSchema = z.object({
   pecasUtilizadas: z.string().max(2000,"Quantidade máxima de 2000 caracteres atingido").optional(),
   horasTrabalhadas: z.number().nonnegative().optional(),
 
-  inicioEm: z.coerce.date().optional(),
-  conclusaoEm: z.coerce.date().optional(),
-  aberturaEm: z.coerce.date().optional()
+  dataPrevistaConclusao: z.coerce.date().optional(),
+  inicioEm: z.coerce.date().optional()
 });
 
 
-// Valida PATCH que permite enviar apenas alguns campos, obriga descricaoServico + horasTrabalhadas ao mudar status para CONCLUIDO
+// Valida PATCH que permite enviar apenas alguns campos, obriga descricaoServico ao mudar status para CONCLUIDO
+// horasTrabalhadas é calculado automaticamente pelo backend
 export const OrdemServicoUpdateSchema = OrdemServicoCreateSchema.partial();
 
 export const OrdemServicoPatchSchema = z
   .object({
     statusOrdemServico: z.nativeEnum(enumStatus).optional(),
+    tipoManutencao: z.nativeEnum(enumTipoManutencao).optional(),
+    prioridadeOrdemServico: z.nativeEnum(enumPrioridade).optional(),
     idTecnico: z.string().uuid("O ID do Técnico deve ser UUID valido").optional(),
+    descricaoFalha: z.string().max(2000, "Quantidade máxima de 2000 caracteres atingido").optional(),
     descricaoServico: z
       .string()
       .max(2000, "Quantidade máxima de 2000 caracteres atingido")
@@ -49,19 +52,20 @@ export const OrdemServicoPatchSchema = z
       .max(2000, "Quantidade máxima de 2000 caracteres atingido")
       .optional(),
     horasTrabalhadas: z.number().nonnegative().optional(),
+    dataPrevistaConclusao: z.coerce.date().optional(),
     inicioEm: z.coerce.date().optional(),
-    conclusaoEm: z.coerce.date().optional(),
   })
+  .passthrough() // Permite campos extras e os mantém no objeto
   .refine((data) => Object.keys(data).length > 0, {
     message: "Informe ao menos um campo para atualização parcial",
   })
   .refine(
     (data) => {
       if (data.statusOrdemServico !== enumStatus.CONCLUIDO) return true;
-      return Boolean(data.descricaoServico && data.horasTrabalhadas !== undefined);
+      return Boolean(data.descricaoServico);
     },
     {
-      message: "Para concluir uma OS, informe descrição do serviço e horas trabalhadas",
+      message: "Para concluir uma OS, informe descrição do serviço",
       path: ["statusOrdemServico"],
     }
   );
